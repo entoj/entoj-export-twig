@@ -96,8 +96,8 @@ class TwigConfiguration extends Configuration
         this._macroCallsStash.push(this._macroCalls);
         this._macroCalls = {};
     }
-    
-    
+
+
     /**
      * Restores the last saved macro calls from the stash
      */
@@ -119,7 +119,7 @@ class TwigConfiguration extends Configuration
         {
             this._macroCalls = this._macroCallsStash.pop();
         }
-    }     
+    }
 
 
     /**
@@ -150,9 +150,9 @@ class TwigConfiguration extends Configuration
                 result.filename+= result.entity.idString.replace(/_/g, '-');
             }
         }
-        if (!result.filename.endsWith('.html'))
+        if (!result.filename.endsWith(this.moduleConfiguration.fileExtension))
         {
-            result.filename+= '.html';
+            result.filename+= this.moduleConfiguration.fileExtension;
         }
 
         result.includePath = this.moduleConfiguration.includePath + result.entity.id.site.name.urlify() + '/' + result.entity.id.category.pluralName.urlify() + '/';
@@ -164,13 +164,9 @@ class TwigConfiguration extends Configuration
         {
             result.includePath+= result.entity.idString.replace(/_/g, '-');
         }
-        if (!result.includePath.endsWith('.html'))
+        if (!result.includePath.endsWith(this.moduleConfiguration.fileExtension))
         {
-            result.includePath+= '.html';
-        }
-        if (!result.includePath.startsWith('/'))
-        {
-            //result.includePath = '/' + result.includePath;
+            result.includePath+= this.moduleConfiguration.fileExtension;
         }
 
         return Promise.resolve(result);

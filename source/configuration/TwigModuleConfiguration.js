@@ -34,6 +34,7 @@ class TwigModuleConfiguration extends Base
         this._exportPath = buildConfiguration.get(prefix + '.exportPath', globalConfiguration.get(prefix + '.exportPath', '${cache}/${configurationName}/export'));
         this._basePath = buildConfiguration.get(prefix + '.basePath', globalConfiguration.get(prefix + '.basePath', ''));
         this._includePath = buildConfiguration.get(prefix + '.includePath', globalConfiguration.get(prefix + '.includePath', ''));
+        this._fileExtension = buildConfiguration.get(prefix + '.fileExtension', globalConfiguration.get(prefix + '.fileExtension', '.html'));
     }
 
 
@@ -109,6 +110,15 @@ class TwigModuleConfiguration extends Base
     get includePath()
     {
         return this._includePath;
+    }
+
+
+    /**
+     * @type {String}
+     */
+    get fileExtension()
+    {
+        return this._fileExtension;
     }
 }
 
