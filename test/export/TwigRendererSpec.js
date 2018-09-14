@@ -21,12 +21,12 @@ describe(TwigRenderer.className, function()
      */
     const testFixtures =
     {
-        //'should render conditions': 'conditions',
-        //'should render assignments': 'assignments',
-        //'should render calls': 'calls',      
-        //'should render loops': 'loops',
+        'should render conditions': 'conditions',
+        'should render assignments': 'assignments',
+        'should render calls': 'calls',
+        'should render loops': 'loops',
         //'should render filter': 'filter',
-        'should render macros': 'macro'        
+        'should render macros': 'macro'
     };
     const options =
     {

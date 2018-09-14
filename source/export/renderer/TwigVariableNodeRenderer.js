@@ -49,6 +49,11 @@ class TwigVariableNodeRenderer extends NodeRenderer
                     result = result.substring(0, result.length - 1);
                     result+= '[' + field + '].';
                 }
+                else if (field.startsWith('$'))
+                {
+                    result = result.substring(0, result.length - 1);
+                    result+= '[' + field.substring(1) + '].';
+                }
                 else
                 {
                     result+= field + '.';

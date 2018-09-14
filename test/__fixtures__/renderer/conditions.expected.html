@@ -5,14 +5,16 @@
 <!-- multiple ifs -->
 {% if hungry %}
   I am hungry
-{% elif tired %}
+{% elseif tired %}
   I am tired
-{% elif thirsty %}
+{% elseif thirsty %}
   I am thirsty
 {% else %}
   I am good!
 {% endif %}
 <!-- inside a expression -->
-{% set value = type if type else '' %}
+{% set value = (type) ? type : '' %}
 <!-- with a function call -->
 {% if model.copy() %}COPY{% endif %}
+<!-- inline if -->
+{{ (model) ? 'yes' }}
