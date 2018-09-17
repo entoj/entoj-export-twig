@@ -125,6 +125,36 @@ class TwigConfiguration extends Configuration
     /**
      * @inheritDoc
      */
+    getFilePath(configuration)
+    {
+        let result = '';
+        if (this.settings.filename)
+        {
+            if (this.settings.filename.indexOf('/') === -1)
+            {
+                result+= this.moduleConfiguration.basePath + configuration.entity.id.site.name.urlify() + '/' + configuration.entity.id.category.pluralName.urlify() + '/';
+            }
+        }
+        else
+        {
+            result = this.moduleConfiguration.basePath + configuration.entity.id.site.name.urlify() + '/' + configuration.entity.id.category.pluralName.urlify() + '/';
+        }
+        return result;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    getIncludePath(configuration)
+    {
+        return this.moduleConfiguration.includePath + configuration.entity.id.site.name.urlify() + '/' + configuration.entity.id.category.pluralName.urlify() + '/';
+    }
+
+
+    /**
+     * @inheritDoc
+     */
     refineConfiguration(configuration)
     {
         const result = configuration;
@@ -134,13 +164,13 @@ class TwigConfiguration extends Configuration
             result.filename = '';
             if (this.settings.filename.indexOf('/') === -1)
             {
-                result.filename+= this.moduleConfiguration.basePath + result.entity.id.site.name.urlify() + '/' + result.entity.id.category.pluralName.urlify() + '/';
+                result.filename+= this.getFilePath(configuration);
             }
             result.filename+= (this.settings.filename.substr(0, this.settings.filename.lastIndexOf('.')) || this.settings.filename);
         }
         else
         {
-            result.filename = this.moduleConfiguration.basePath + result.entity.id.site.name.urlify() + '/' + result.entity.id.category.pluralName.urlify() + '/';
+            result.filename = this.getFilePath(configuration);
             if (result.macro)
             {
                 result.filename+= result.macro.name.replace(/_/g, '-');
@@ -155,7 +185,7 @@ class TwigConfiguration extends Configuration
             result.filename+= this.moduleConfiguration.fileExtension;
         }
 
-        result.includePath = this.moduleConfiguration.includePath + result.entity.id.site.name.urlify() + '/' + result.entity.id.category.pluralName.urlify() + '/';
+        result.includePath = this.getIncludePath(configuration);
         if (result.macro)
         {
             result.includePath+= result.macro.name.replace(/_/g, '-');
