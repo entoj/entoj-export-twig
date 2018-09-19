@@ -33,6 +33,15 @@ class TwigMacroNodeRenderer extends NodeListRenderer
 
 
     /**
+     * @return {Promise<Boolean>}
+     */
+    addParameters(node, configuration)
+    {
+        return Promise.resolve('');
+    }
+
+
+    /**
      * @return {Promise<String>}
      */
     render(node, configuration)
@@ -41,6 +50,7 @@ class TwigMacroNodeRenderer extends NodeListRenderer
         {
             return Promise.resolve('');
         }
+        const scope = this;
         const promise = co(function*()
         {
             // Prepare
@@ -64,19 +74,20 @@ class TwigMacroNodeRenderer extends NodeListRenderer
                 {
                     result+= ' = ' + parameters[paramName].value;
                 }
-                isFirst = false;              
+                isFirst = false;
             }
+            result+= yield scope.addParameters(isFirst, node, configuration);
             if (!isFirst)
             {
                 result+= ', ';
             }
-            result+= 'caller';   
+            result+= 'caller';
             result+= ') %}';
-            
+
             // Store current usage
             configuration.saveMacroCalls();
 
-            // Generate body            
+            // Generate body
             const body = yield configuration.renderer.renderList(node.children, configuration);
 
             // Add imports
@@ -91,7 +102,7 @@ class TwigMacroNodeRenderer extends NodeListRenderer
                 const call = configuration.macroCalls[callName];
                 call.addedInclude = true;
                 result+= '{% from \'' + call.includePath + '\' import ' + call.macro.name + ' %}\n';
-            }  
+            }
 
             // Restore usage
             configuration.restoreMacroCalls(true);

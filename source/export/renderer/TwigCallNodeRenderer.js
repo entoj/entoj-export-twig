@@ -34,6 +34,15 @@ class TwigCallNodeRenderer extends NodeRenderer
 
 
     /**
+     * @return {Promise<Boolean>}
+     */
+    addArguments(isFirst, node, configuration)
+    {
+        return Promise.resolve('');
+    }
+
+
+    /**
      * @return {Promise<String>}
      */
     render(node, configuration)
@@ -42,6 +51,7 @@ class TwigCallNodeRenderer extends NodeRenderer
         {
             return Promise.resolve('');
         }
+        const scope = this;
         const promise = co(function*()
         {
             let result = '';
@@ -74,8 +84,9 @@ class TwigCallNodeRenderer extends NodeRenderer
                     result+= ', ';
                 }
                 isFirst = false;
-                result+= yield configuration.renderer.renderNode(args[arg].value, configuration);    
+                result+= yield configuration.renderer.renderNode(args[arg].value, configuration);
             }
+            result+= yield scope.addArguments(isFirst, node, configuration);
             if (node.children.length)
             {
                 result+= ') %}';
@@ -83,10 +94,10 @@ class TwigCallNodeRenderer extends NodeRenderer
             else
             {
                 result+= ') }}';
-            }            
+            }
             if (node.children.length)
             {
-                result+= yield configuration.renderer.renderList(node.children, configuration);                
+                result+= yield configuration.renderer.renderList(node.children, configuration);
                 result+= '{% endcall %}';
             }
 
