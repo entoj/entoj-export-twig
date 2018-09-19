@@ -76,8 +76,9 @@ class TwigMacroNodeRenderer extends NodeListRenderer
                 }
                 isFirst = false;
             }
-            result+= yield scope.addParameters(isFirst, node, configuration);
-            if (!isFirst)
+            const extraParams = yield scope.addParameters(isFirst, node, configuration);
+            result+= extraParams;
+            if (!isFirst || extraParams.length)
             {
                 result+= ', ';
             }
